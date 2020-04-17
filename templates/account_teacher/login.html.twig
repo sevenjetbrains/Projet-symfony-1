@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'partials_teacher/base.html.twig' %}
 
 {% block title %}Login
 {% endblock %}
@@ -17,11 +17,12 @@
 
 {% endif %}
 
-					<form action="{{path('account_login')}}" method="post">
+<form action="{{path('teacher_login')}}" method="post">
+
 						<div class="form-group">
 							<label for="email">Email
 							</label>
-<input type="email" name="_username" class="form-control" id="email" value="{{ last_username }}" aria-describedby=" emailHelp" placeholder="email...">
+<input type="email" name="_username" class="form-control" id="email" value="{{ last_username }}"  placeholder=" email...">
 
 
 						</div>

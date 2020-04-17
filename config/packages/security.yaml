@@ -2,23 +2,46 @@ security:
     encoders:
         App\Entity\Student:
             algorithm: bcrypt
+        App\Entity\Teacher:
+            algorithm: bcrypt    
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
         users_in_memory: { memory: null }
-        in_database:
+        in_database1:
             entity:
                 class: App\Entity\Student
+                property: email
+        in_database2:
+            entity:
+                class: App\Entity\Teacher
                 property: email
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+        teacher:
+            pattern: ^/teacher
+            anonymous: lazy
+            provider: in_database2
+            form_login:
+                login_path: teacher_login
+                check_path: teacher_login
+                default_target_path: classes_teacher
+                always_use_default_target_path: true
+            logout:
+                path: teacher_logout
+                target: teacher_login                       
         main:
             anonymous: lazy
-            provider: in_database
+            provider: in_database1
             form_login:
                 login_path: account_login
-                check_path: account_login
+                check_path: account_login  
+            logout: 
+                path: account_logout
+                target: account_login          
+               
+               
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
@@ -29,5 +52,7 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
+        # - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+         - { path: ^/teacher/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }

@@ -2,20 +2,22 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\StudentRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\TeacherRepository")
  * @ORM\Entity
  * @UniqueEntity(
  * fields={"email"},
  * message="cet etudiant existe déja"
  * )
  */
-class Student implements UserInterface
+class Teacher implements UserInterface
 {
     /**
      * @ORM\Id()
@@ -55,8 +57,18 @@ class Student implements UserInterface
      *  
      * @Assert\EqualTo(propertyPath="hash" ,message="erreur dans le mot de passe")
      */
-     
+
     private $confirm;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Classes", mappedBy="author")
+     */
+    private $classes;
+
+    public function __construct()
+    {
+        $this->classes = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -99,11 +111,11 @@ class Student implements UserInterface
         return $this;
     }
 
-  
+
 
     /**
      * Get the value of confirm
-     */ 
+     */
     public function getConfirm()
     {
         return $this->confirm;
@@ -113,7 +125,7 @@ class Student implements UserInterface
      * Set the value of confirm
      *
      * @return  self
-     */ 
+     */
     public function setConfirm($confirm)
     {
         $this->confirm = $confirm;
@@ -123,7 +135,7 @@ class Student implements UserInterface
 
     /**
      * Get the value of hash
-     */ 
+     */
     public function getHash()
     {
         return $this->hash;
@@ -133,7 +145,7 @@ class Student implements UserInterface
      * Set the value of hash
      *
      * @return  self
-     */ 
+     */
     public function setHash($hash)
     {
         $this->hash = $hash;
@@ -145,7 +157,7 @@ class Student implements UserInterface
 
     public function getRoles()
     {
-        return ['ROLE_STUDENT'];
+        return ['ROLE_TEACHER'];
     }
     public function getPassword()
     {
@@ -160,5 +172,36 @@ class Student implements UserInterface
     }
     public function eraseCredentials()
     {
+    }
+
+    /**
+     * @return Collection|Classes[]
+     */
+    public function getClasses(): Collection
+    {
+        return $this->classes;
+    }
+
+    public function addClass(Classes $class): self
+    {
+        if (!$this->classes->contains($class)) {
+            $this->classes[] = $class;
+            $class->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeClass(Classes $class): self
+    {
+        if ($this->classes->contains($class)) {
+            $this->classes->removeElement($class);
+            // set the owning side to null (unless already changed)
+            if ($class->getAuthor() === $this) {
+                $class->setAuthor(null);
+            }
+        }
+
+        return $this;
     }
 }

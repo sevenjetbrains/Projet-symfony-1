@@ -6,28 +6,30 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
-class AccountController extends AbstractController
-{
+class TeacherController extends AbstractController{
+
+
     /**
-     * @Route("/login", name="account_login")
+     * @Route("/teacher/login" , name="teacher_login")
      */
-    public function login(AuthenticationUtils $authenticationUtils)
+    public function teacherLogin(AuthenticationUtils $authenticationUtils)
     {
         $error = $authenticationUtils->getLastAuthenticationError();
         $lastUsername = $authenticationUtils->getLastUsername();
-        return $this->render('account/login.html.twig', [
+        return $this->render('account_teacher/login.html.twig', [
             'last_username' => $lastUsername,
             'error'         => $error,
         ]);
-    }
-   
-    /**
-     * @Route("/logout" , name="account_logout")
-     *
-     * 
-     */
-    public function logout(){
 
+        }
+
+
+    /**
+     * @Route("/teacher/logout" , name="teacher_logout")
+     */
+    public function teacherLogout(){
+
+
+      
     }
-   
 }
