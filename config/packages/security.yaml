@@ -32,6 +32,8 @@ security:
                 path: teacher_logout
                 target: teacher_login                       
         main:
+            pattern: ^/student
+
             anonymous: lazy
             provider: in_database1
             form_login:
@@ -52,7 +54,7 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
          - { path: ^/teacher/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        # - { path: ^/admin, roles: ROLE_ADMIN }
+         - { path: ^/Teacher, roles: TEACHER_ROLE }
         # - { path: ^/profile, roles: ROLE_USER }

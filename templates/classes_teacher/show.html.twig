@@ -1,0 +1,38 @@
+{% extends "partials_teacher/base.html.twig" %}
+{% block title %}Modifier{% endblock %}
+{% block body %}
+<div class="container mt-2">
+
+<nav aria-label="breadcrumb  mb-2">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item active" aria-current="page">
+<a href="{{path('classes_teacher')}}" class="btn btn-info">
+
+	<i class="fas fa-angle-left"></i>Retour</a>
+
+		</li>
+
+	</ol>
+</nav>
+
+<div class="alert alert-light text-center" role="alert">
+</div>
+<div class="jumbotron">
+	<h1 class="display-4">
+	{{classe.title}}
+	
+	</h1>
+	{{classe.content | raw }}
+	<hr class="my-4">
+	
+<a class="btn btn-primary btn-lg" href="{{path('classes_edit',{'id' :classe.id})}}" role="button">
+	<i class="fas fa-edit"></i>Modifier</a>
+
+</div>
+
+
+
+</div>
+
+
+{% endblock %}

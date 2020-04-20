@@ -2,10 +2,19 @@
 
 namespace App\Entity;
 
+use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ClassesRepository")
+ *  @ORM\Entity
+ * @UniqueEntity(
+ * fields={"title"},
+ * message="un cour avec ce tite existe déja"
+ * )
+ * @ORM\HasLifecycleCallbacks
  */
 class Classes
 {
@@ -18,6 +27,9 @@ class Classes
 
     /**
      * @ORM\Column(type="string")
+     * @Assert\NotBlank(message="Vous devez remplir ce champ")
+     * @Assert\Length(min=10,max=255,minMessage="Le titre doit faire plus de 10 caractéres !",
+     * maxMessage="Le titre ne peut pas faire plus de 255 caractéres")
      */
     private $title;
 
@@ -28,6 +40,7 @@ class Classes
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\NotBlank(message="Vous devez remplir ce champ")
      */
     private $content;
 
@@ -36,22 +49,22 @@ class Classes
      */
     private $author;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $slug;
+
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $updateDate;
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getTitle(): ?\DateTimeInterface
-    {
-        return $this->title;
-    }
-
-    public function setTitle(\DateTimeInterface $title): self
-    {
-        $this->title = $title;
-
-        return $this;
-    }
+  
 
     public function getDateCreate(): ?\DateTimeInterface
     {
@@ -88,4 +101,83 @@ class Classes
 
         return $this;
     }
-}
+
+
+    
+    
+    
+    /**
+     * Get the value of title
+     */ 
+    public function getTitle()
+    {
+        return $this->title;
+    }
+    
+    /**
+     * Set the value of title
+     *
+     * @return  self
+     */ 
+    public function setTitle($title)
+    {
+        $this->title = $title;
+        
+        return $this;
+    }
+    
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+    
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
+        
+        return $this;
+    }
+    //-----------------------------------------------------
+    /**
+     * Callback appelé à chaque fois qu'on créé un Cour
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     *
+     * @return void
+     */
+    public function prePersist()
+    {
+        if (empty($this->dateCreate)) {
+            $this->dateCreate = new \DateTime();
+        }
+       
+        }
+    //----------------------------------------------------------------
+    /**
+     * Permet d'initialiser le slug !
+     *
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     * @return void
+     */
+    public function initializeSlug()
+    {
+        if (empty($this->slug)) {
+            $slugify = new Slugify();
+            $this->slug = $slugify->slugify($this->title);
+        }
+    }  
+    //--------------------------------------------------------------   
+
+
+    public function getUpdateDate(): ?\DateTimeInterface
+    {
+        return $this->updateDate;
+    }
+
+    public function setUpdateDate(?\DateTimeInterface $updateDate): self
+    {
+        $this->updateDate = $updateDate;
+
+        return $this;
+    }}
