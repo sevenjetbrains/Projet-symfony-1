@@ -47,4 +47,13 @@ class ClassesRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function findByExampleField($value)
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.author = :val')
+            ->setParameter('val', $value)
+            
+            ->getQuery()
+            ->getResult();
+    }
 }

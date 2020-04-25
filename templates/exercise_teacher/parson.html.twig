@@ -1,0 +1,126 @@
+{% extends "partials_teacher/base.html.twig" %}
+
+{% block title %}exercice type parson
+{% endblock %}
+{% form_theme form _self %}
+{% block body %}
+	<div class="container">
+		<nav aria-label="breadcrumb  mb-2">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item active" aria-current="page">
+					<a href="{{path('exercise_index')}}" class="btn btn-info">
+
+						<i class="fas fa-angle-left"></i>Retour</a>
+
+				</li>
+
+			</ol>
+		</nav>
+
+		<div class="row">
+			<div class="col-md-8 offset-md-2">
+				{{form_start(form)}}
+				{{form_widget(form)}}
+<hr class="my-4">
+<button class="btn btn-success">
+	<i class="far fa-save mr-2"></i>Enrgistrer</button>
+
+				{{form_end(form)}}
+
+			</div>
+		</div>
+
+
+	</div>
+
+
+{% endblock %}
+{% block _parson_linesExercise_widget %}
+	<h2>ici vous ajoutez les instructions de l'exercice
+	</h2>
+	{{form_widget(form)}}
+	<input type="hidden" id="widget-counter" value="0">
+	<div class="form-group">
+
+		<button type="button" id="add-instruction" class="btn btn-info">Ajouter une instruction</button>
+
+	</div>
+
+{% endblock %}
+{% block  _parson_linesExercise_entry_row %}
+	{{form_widget(form)}}
+
+
+{% endblock %}
+{% block  _parson_linesExercise_entry_widget %}
+	<div class="form-group" id="block_{{id}}">
+		<div class="row">
+			<div class="col-10">
+
+				{{form_widget(form.instruction)}}
+				{{form_errors(form.instruction)}}
+
+			</div>
+			<div class="col-2">
+<button type="button" data-action="delete" data-target="#block_{{id}}" class="btn btn-info">
+<i class="fas fa-trash-alt"></i></button>
+
+
+
+
+			</div>
+		</div>
+	</div>
+
+
+{% endblock %}
+{% block javascripts %}
+	<!--<script src="{{asset('js/jquery.js')}}"></script>-->
+
+	<script>
+$(document).ready(function(){
+
+
+		$('#add-instruction').click(function () {
+
+
+const index = +$('#widget-counter').val();
+console.log(index);
+
+const tmpl = $('#parson_linesExercise').data('prototype').replace(/__name__/g, index);
+$('#parson_linesExercise').append(tmpl);
+$('#widget-counter').val(index + 1 );
+
+
+handleDeleteButtons();
+
+});
+function handleDeleteButtons(){
+
+	$('button[data-action="delete"]').click(function(){
+		const target=this.dataset.target;
+		$(target).remove();
+	});
+}
+handleDeleteButtons();
+
+
+const nb = +$('#widget-counter').val();
+
+if( nb == 0){
+
+$('#add-instruction').trigger('click');
+
+}
+
+
+
+
+});
+
+
+
+
+
+	</script>
+{% endblock %}

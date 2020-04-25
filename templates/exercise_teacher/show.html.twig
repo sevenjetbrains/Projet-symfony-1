@@ -1,0 +1,39 @@
+{% extends "partials_teacher/base.html.twig" %}
+{% block title %}visualiser{% endblock %}
+{% block body %}
+<div class="container mt-2">
+
+<nav aria-label="breadcrumb  mb-2">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item active" aria-current="page">
+<a href="{{path('exercise_index')}}" class="btn btn-info">
+
+	<i class="fas fa-angle-left"></i>Retour</a>
+
+		</li>
+
+	</ol>
+</nav>
+
+<div class="alert alert-light text-center" role="alert">
+</div>
+<div class="jumbotron">
+	<h1 class="display-4">
+	{{exercise.title}}
+	
+	</h1>
+	{{exercise.description | raw }}
+	<hr class="my-4">
+	
+<a class="btn btn-primary btn-lg" href="{{path('exercise_edit',{'id' :exercise.id})}}" role="button">
+
+	<i class="fas fa-edit"></i>Modifier</a>
+
+</div>
+
+
+
+</div>
+
+
+{% endblock %}

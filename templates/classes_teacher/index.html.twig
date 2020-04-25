@@ -49,23 +49,25 @@
 						<td class="d-flex justify-content-end">
 
 
-							<a href="{{path('classes_show',{'slug' : repo.slug} )}}" class="nav-link btn btn-success ml-1" data-toggle="tooltip" data-placement="top" title="visualiser">
+							<a href="{{path('classes_show',{'slug' : repo.slug} )}}" class="nav-link btn btn-outline-success ml-1" data-toggle="tooltip" data-placement="top" title="visualiser">
 
 
 								<i class="fas fa-eye"></i>
 								visualiser
 
 							</a>
-							<a href="{{ path('classes_edit',{'id' : repo.Id })}}" class="nav-link btn btn-success ml-1" data-toggle="tooltip" data-placement="top" title="modifier">
+							<a href="{{ path('classes_edit',{'id' : repo.Id })}}" class="nav-link btn btn-outline-success ml-1" data-toggle="tooltip" data-placement="top" title="modifier">
 								<i class="fas fa-edit"></i>
 								modifier
 							</a>
-							<a href="{{ path('classes_remove',{'id' : repo.Id })}}" class="nav-link btn btn-success ml-1" data-toggle="tooltip" data-placement="top" title="supprimer">
+							<a href="{{ path('classes_remove',{'id' : repo.Id })}}" class="nav-link btn btn-outline-success ml-1" data-toggle="tooltip" data-placement="top" title="supprimer">
 
 								<i class="fas fa-trash-alt"></i>
 								supprimer
 							</a>
-							<a href="#" class="nav-link btn btn-success ml-1" data-toggle="tooltip" data-placement="top" title="exercice">
+<a href="{{path('exercise_index',{'id' : repo.id })}}" class="nav-link btn btn-outline-success ml-1" data-toggle="tooltip" data-placement="top" title="exercice">
+
+
 								<i class="fas fa-file-word"></i>
 								exercice</a>
 						</td>

@@ -111,4 +111,17 @@ class ClassesController extends AbstractController
 
 
     }
+    /**
+     * 
+     *  Supprimer un cours
+     * @Route("/teacher/exerciseList/{id}", name="classes_list")
+     * 
+     * 
+     */
+    public function exerciseList(Classes $classe){
+
+     return $this->render("exercise_teacher/index.html.twig",[
+         "id"=>$classe->getId(),
+     ]);
+    }
 }

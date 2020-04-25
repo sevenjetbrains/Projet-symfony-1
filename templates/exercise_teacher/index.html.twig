@@ -1,19 +1,128 @@
-{% extends 'base.html.twig' %}
+{% extends 'partials_teacher/base.html.twig' %}
 
-{% block title %}Exercice{% endblock %}
+{% block title %}Exercice
+{% endblock %}
 
 {% block body %}
-<div class="container-fluid mt-2">
-<nav aria-label="breadcrumb mt-2">
-	<ol class="breadcrumb">
-		<li class="breadcrumb-item active" aria-current="page">
-			<a href="{{path('classes_create')}}" class="btn btn-info">Ajouter</a>
-		</li>
+	<div class="container-fluid mt-2">
+		<nav aria-label="breadcrumb mt-2">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item active" aria-current="page">
+					<a href="{{path('exercise_create')}}" class="btn btn-info">
+						<i class="fas fa-plus mr-1"></i>Ajouter un exercice</a>
 
-	</ol>
-</nav>
+				</li>
+				<li class="breadcrumb-item active" aria-current="page">
+					<a href="{{path('parson_create')}}" class="btn btn-info">
+						<i class="fas fa-plus mr-1"></i>Ajouter un exercice type Parson</a>
+
+				</li>
+
+			</ol>
+		</nav>
+		<div class="row">
+			<div class="col-md-9 offset-md-2">
+				<div class="accordion" id="accordionExample">
+					{% set nb = 0 %}
 
 
+					{% set vu = first %}
 
-</div>
-{% endblock %}
+					{% for repo in repos %}
+
+
+						<div class="card">
+							<div class="card-header d-flex justify-content-between" id=" heading {{nb}} ">
+
+
+								<h2 class="mb-0">
+									<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse{{nb}}" aria-expanded="true" aria-controls="collapse{{nb}}">
+
+										{{ repo.title}}
+
+									</button>
+								</h2>
+								<div class="">
+									<div class="btn btn-primary">
+										<span class="badge badge-light">{{repo.exercise | length }}</span>
+										exercice
+									</div>
+
+								</div>
+							</div>
+
+
+							<div id="collapse{{nb}}" class="collapse {% if repo.id == vu %} show {% endif %}" aria-labelledby="heading{{nb}}" data-parent="#accordionExample">
+
+
+								<div class="card-body">
+									{% if repo.exercise is not empty %}
+
+										<table class="table table-hover">
+
+											<thead>
+												<tr>
+
+													<th scope="col">titre</th>
+													<th scope="col">date de création</th>
+													<th scope="col">type</th>
+													<th scope="col" class="d-flex justify-content-center">action</th>
+												</tr>
+											</thead>
+											<tbody>
+												{% for exercise in repo.exercise %}
+
+													{% if exercise.type == 'parson' %}
+														{% set routeEdit = 'parson_create' %}
+														{% set routeShow = 'parson_show' %}
+
+													{% else %}
+														{% set routeEdit = 'exercise_edit' %}
+														{% set routeShow = 'exercise_show' %}
+
+													{% endif %}
+													<tr>
+
+														<td>{{exercise.title}}</td>
+														<td>{{exercise.dateCreate | date("d-m-Y")}}</td>
+														<td>{{exercise.type}}</td>
+														<td class="d-flex justify-content-end">
+
+															<a href="{{path( routeShow ,{'id' : exercise.id} )}}" class="nav-link btn btn-outline-success ml-1" data-toggle="tooltip" data-placement="top" title="visualiser">
+
+
+																<i class="fas fa-eye"></i>
+																visualiser
+
+															</a>
+
+
+<a href="{{ path( routeEdit ,{'id' : exercise.Id })}}" class="nav-link btn btn-outline-success ml-1" data-toggle="tooltip" data-placement="top" title="modifier">
+
+																<i class="fas fa-edit"></i>
+																modifier</a>
+															<a href="{{ path('exercise_remove',{'id' : exercise.Id })}}" class="nav-link btn btn-outline-success ml-1" data-toggle="tooltip" data-placement="top" title="supprimer">
+
+																<i class="fas fa-trash-alt"></i>
+																supprimer
+															</a>
+
+														</td>
+													</tr>
+												</td>
+											</tbody>
+										</tr>
+									{% endfor %}
+								</tbody>
+							</table>
+						{% endif %}
+
+					</div>
+				</div>
+			</div>
+			{% set nb = nb + 1 %}
+		{% endfor %}
+
+	</div>
+
+</div></div></div>{% endblock %}

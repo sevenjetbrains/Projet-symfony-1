@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use Cocur\Slugify\Slugify;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -58,6 +60,16 @@ class Classes
      * @ORM\Column(type="date", nullable=true)
      */
     private $updateDate;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Exercise", mappedBy="classes")
+     */
+    private $exercise;
+
+    public function __construct()
+    {
+        $this->exercise = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -178,6 +190,37 @@ class Classes
     public function setUpdateDate(?\DateTimeInterface $updateDate): self
     {
         $this->updateDate = $updateDate;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Exercise[]
+     */
+    public function getExercise(): Collection
+    {
+        return $this->exercise;
+    }
+
+    public function addExercise(Exercise $exercise): self
+    {
+        if (!$this->exercise->contains($exercise)) {
+            $this->exercise[] = $exercise;
+            $exercise->setClasses($this);
+        }
+
+        return $this;
+    }
+
+    public function removeExercise(Exercise $exercise): self
+    {
+        if ($this->exercise->contains($exercise)) {
+            $this->exercise->removeElement($exercise);
+            // set the owning side to null (unless already changed)
+            if ($exercise->getClasses() === $this) {
+                $exercise->setClasses(null);
+            }
+        }
 
         return $this;
     }}

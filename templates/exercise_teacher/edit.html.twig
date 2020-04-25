@@ -1,0 +1,30 @@
+{% extends "partials_teacher/base.html.twig" %}
+{% block title %}Modifier{% endblock %}
+{% block body %}
+<div class="container">
+<nav aria-label="breadcrumb mt-2">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item active" aria-current="page">
+<a href="{{path('exercise_index')}}" class="btn btn-info">
+	<i class="fas fa-angle-left"></i>Retour</a>
+
+		</li>
+
+	</ol>
+</nav>
+
+{{form_start(form)}}
+{{form_row(form.classes,{'attr': {'disabled': true }})}}
+
+{{form_row(form.title)}}
+{{form_row(form.description)}}
+
+<button type="submit" class="btn btn-info">
+	<i class="fas fa-save"></i>Enregistrer</button>
+
+{{form_end(form)}}
+
+</div>
+
+
+{% endblock %}
