@@ -1,0 +1,142 @@
+{% extends "partials_teacher/base.html.twig" %}
+{% block title  %}faire un solution pour l'exercice
+	{{exercise.title}}
+{% endblock %}
+{% block stylesheets %}
+	<!--link rel="stylesheet" href="{{asset('css/jquery-ui.min.css')}}"-->
+
+
+{% endblock %}
+
+{% block body %}
+	<div class="container-fluid">
+		<nav aria-label="breadcrumb mt-2">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item active" aria-current="page">
+<a href="{{path('exercise_index')}}" class="btn btn-info">
+
+	<i class="fas fa-angle-left"></i>Retour</a>
+
+
+				</li>
+				
+
+			</ol>
+		</nav>
+		<div class="jumbotron">
+			<h1 class="display-4">{{exercise.title}}</h1>
+			<hr class="my-4">
+
+			<div class="row ml-2">
+
+				<div class="col-5">
+					<h5 class="text-center">
+						<span class="badge badge-secondary">Instruction</span>
+					</h5>
+					<div class="col  connectedSortable border border-primary " id="exo">
+
+
+						{% for line in exercise.linesExercise %}
+							<div class="alert alert-success mt-1" role="alert" id="{{line.id}}">
+								{{line.instruction}}
+							</div>
+
+
+						{% endfor %}
+
+
+					</div>
+				</div>
+				<div class="col-1"></div>
+				<div class="col-5">
+					<h5 class="text-center">
+						<span class="badge badge-success">Solution</span>
+					</h5>
+
+					<div class="col connectedSortable border border-primary " id="sol"></div>
+				</div>
+			</div>
+<hr class="my-4">
+<button class="btn btn-danger" id="save">Enrgistrer la solution</button>
+		</div>
+{% include 'model/modal1.html.twig' %}
+
+	</div>
+{% endblock %}
+{% block javascripts %}
+		
+
+	<script src="{{asset('js/jquery-ui.min.js')}}"></script>
+
+	<script>
+		$(document).ready(function () {
+
+var h1 = $('#exo').css('height');
+var w1 = $('#exo').css('width');
+$('#sol').css('height', h1).css('width', w1);
+var h1 = $('#sol').css('height');
+var w1 = $('#sol').css('width');
+$('#exo').css('height', h1).css('width', w1);
+
+$("#exo, #sol").sortable({connectWith: ".connectedSortable"}).disableSelection();
+
+$('#save').click(function(){
+
+if($('#sol div').length == 0){
+alert("il faut d'abord faire une solution pour l'exercice après l'enregistrer");
+
+}else{
+var solution=new Array();
+
+$('#sol div').each(function(index){
+solution[index]=$(this).attr('id');
+})
+var final={};
+    final.exo={{exercise.id}};
+	final.result=solution;
+	console.log(final);
+	console.log(final.result[0]);
+var myJSON=JSON.stringify(final);
+console.log(final.result);
+function initialseList(){
+	solution.forEach(function(i) {    $("#exo").append($("#"+i));   });
+};
+//----------------------------------------------------
+var route='{{path('solution_saveAjax')}}';
+//----------------------------------------------------
+var callSuccess=function(response){
+$("#reponse").text(response.reponse);
+initialseList();
+
+$('#staticBackdrop').modal('show');
+
+
+};
+//---------------------------------------------------
+var callError=function(response){
+console.log("pas de reteur");
+};
+//-------------------------------------------------
+var getOption={
+	url : route,
+	method : "POST",
+	data : myJSON,
+	success : callSuccess,
+	error : callError
+
+
+};
+//-----------------------------------------------------
+$.ajax(getOption);
+
+
+}
+
+
+
+
+
+});
+});
+	</script>
+{% endblock %}

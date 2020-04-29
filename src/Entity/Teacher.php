@@ -64,6 +64,10 @@ class Teacher implements UserInterface
      * @ORM\OneToMany(targetEntity="App\Entity\Classes", mappedBy="author")
      */
     private $classes;
+     public function getCompletName(){
+        return $this->firstName.' '.$this->lastName;
+    }
+
 
     public function __construct()
     {

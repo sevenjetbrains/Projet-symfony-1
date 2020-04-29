@@ -4,10 +4,12 @@ namespace App\Controller;
 
 use App\Entity\Lines;
 use App\Entity\Exercise;
+use App\Entity\Solution;
 use App\Form\ParsonType;
 use App\Form\ExerciseType;
 use Symfony\Flex\Unpack\Result;
 use App\Repository\ClassesRepository;
+use App\Repository\ExerciseRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
@@ -156,6 +158,47 @@ return $this->render("exercise_teacher/parson.html.twig",[
 
         return $this->render("exercise_teacher/parsonShow.html.twig", ["exercise" => $exercise]);
     }
+
+    
+    //--------------------------------------------------------------------------   
+    /**
+     * @Route("/teacher/exercice/parson/solution/saveAjax", name="solution_saveAjax", methods={"POST"})
+     */
+    
+    public function solutionSaveAjax(Request $request,ExerciseRepository $repo,ObjectManager $manager){
+        if ($request->isXmlHttpRequest()){
+
+            $solution=new Solution($repo);
+            $data = json_decode($request->getContent(), true);
+           
+          $exercise=$repo->find($data["exo"]);
+          $tab=$data["result"];
+         $solution->setExercise($exercise)
+         ->setSolutionArray($tab);
+      
+         $manager->persist($solution);
+         $manager->flush();
+           
+           //return $this->redirectToRoute("solution_create",["id" => $data["exo"]]);
+        
+        return $this->json(["status" => 200, "reponse" => 'la solution est enregistrée vous pouvez ajouter une autre' ] ,200);
+        }
+    
+    
+    
+    }
+    /**
+     * @Route("/teacher/exercice/parson/solution/{id}", name="solution_create")
+     */
+
+public function solutionCreate(Exercise $exercise){
+
+
+
+ return $this->render("exercise_teacher/solutionCreate.html.twig",[
+     'exercise' => $exercise
+ ]);
+}
 
 
 

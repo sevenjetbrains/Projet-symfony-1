@@ -66,6 +66,7 @@ class Classes
      */
     private $exercise;
 
+   
     public function __construct()
     {
         $this->exercise = new ArrayCollection();

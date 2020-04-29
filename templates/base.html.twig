@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}">
         {% block stylesheets %}{% endblock %}
     </head>
     <body>
@@ -14,12 +14,13 @@
 
 <script src="https://kit.fontawesome.com/38ed014f42.js" crossorigin="anonymous"></script>
 
-        {% block javascripts %}
+        <!--script src="{{asset('js/jquery.slim.min.js')}}"></script-->
+<script src="{{asset('js/jquery.js')}}"></script>
+
+        <script src="{{asset('js/popper.min.js')}}"></script>
+
+        <script src="{{asset('js/bootstrap.min.js')}}"></script>
         
-        {% endblock %}
-        <script src="js/jquery.slim.min.js"></script>
-        <script src="js/popper.min.js"></script>
-        <script src="js/bootstrap.min.js"></script>
-        
+        {% block javascripts %}{% endblock %}
     </body>
 </html>

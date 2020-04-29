@@ -19,6 +19,7 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+      
         teacher:
             pattern: ^/teacher
             anonymous: lazy
@@ -30,7 +31,8 @@ security:
                 always_use_default_target_path: true
             logout:
                 path: teacher_logout
-                target: teacher_login                       
+                target: teacher_login  
+                                      
         main:
             pattern: ^/student
 
@@ -38,11 +40,15 @@ security:
             provider: in_database1
             form_login:
                 login_path: account_login
-                check_path: account_login  
+                check_path: account_login 
+                default_target_path: student_index
+                always_use_default_target_path: true 
             logout: 
                 path: account_logout
                 target: account_login          
-               
+        first:
+            pattern: ^/
+            anonymous: lazy          
                
 
             # activate different ways to authenticate
@@ -54,7 +60,8 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+         - { path: ^/student/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
          - { path: ^/teacher/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-         - { path: ^/Teacher, roles: TEACHER_ROLE }
+         - { path: ^/teacher, roles: ROLE_TEACHER }
+         - { path: ^/student, roles: ROLE_STUDENT }
         # - { path: ^/profile, roles: ROLE_USER }

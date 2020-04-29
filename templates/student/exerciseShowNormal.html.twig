@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{exercise.title}} {% endblock %}
+{% block body %}
+<div class="container mt">
+
+<nav aria-label="breadcrumb mt-2 mb-2">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item active" aria-current="page">
+<a href="#" id="back" class="btn btn-info">
+
+
+				<i class="fas fa-angle-left"></i>Retour</a>
+
+
+		</li>
+
+	</ol>
+</nav>
+
+
+<div class="jumbotron">
+	<h1 class="display-4">{{exercise.title}}</h1>
+	
+	<hr class="my-4">
+{{exercise.description | raw}}
+
+	
+</div>
+
+
+
+
+
+
+
+</div>
+{% endblock %}
+{% block javascripts %}
+<script>
+function goBack() {
+  window.history.back();
+}
+$('#back').click(goBack);
+
+
+
+
+</script>
+
+
+
+
+{% endblock %}

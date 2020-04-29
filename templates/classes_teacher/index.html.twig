@@ -8,7 +8,9 @@
 		<nav aria-label="breadcrumb mt-2">
 			<ol class="breadcrumb">
 				<li class="breadcrumb-item active" aria-current="page">
-					<a href="{{path('classes_create')}}" class="btn btn-info">Ajouter</a>
+<a href="{{path('classes_create')}}" class="btn btn-info">
+	<i class="fas fa-plus mr-2"></i>Ajouter</a>
+
 				</li>
 
 			</ol>
@@ -46,7 +48,7 @@
 						</td>
 
 
-						<td class="d-flex justify-content-end">
+						<td class="d-flex  justify-content-end">
 
 
 							<a href="{{path('classes_show',{'slug' : repo.slug} )}}" class="nav-link btn btn-outline-success ml-1" data-toggle="tooltip" data-placement="top" title="visualiser">

@@ -9,12 +9,13 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class AccountController extends AbstractController
 {
     /**
-     * @Route("/login", name="account_login")
+     * @Route("/student/login", name="account_login")
      */
     public function login(AuthenticationUtils $authenticationUtils)
     {
         $error = $authenticationUtils->getLastAuthenticationError();
         $lastUsername = $authenticationUtils->getLastUsername();
+        //dd($lastUsername);
         return $this->render('account/login.html.twig', [
             'last_username' => $lastUsername,
             'error'         => $error,
@@ -22,7 +23,7 @@ class AccountController extends AbstractController
     }
    
     /**
-     * @Route("/logout" , name="account_logout")
+     * @Route("/student/logout" , name="account_logout")
      *
      * 
      */

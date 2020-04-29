@@ -63,9 +63,15 @@ class Exercise
      */
     private $linesExercise;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Solution", mappedBy="exercise", orphanRemoval=true)
+     */
+    private $solutions;
+
     public function __construct()
     {
         $this->linesExercise = new ArrayCollection();
+        $this->solutions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -172,6 +178,37 @@ class Exercise
             // set the owning side to null (unless already changed)
             if ($linesExercise->getExercise() === $this) {
                 $linesExercise->setExercise(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Solution[]
+     */
+    public function getSolutions(): Collection
+    {
+        return $this->solutions;
+    }
+
+    public function addSolution(Solution $solution): self
+    {
+        if (!$this->solutions->contains($solution)) {
+            $this->solutions[] = $solution;
+            $solution->setExercise($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSolution(Solution $solution): self
+    {
+        if ($this->solutions->contains($solution)) {
+            $this->solutions->removeElement($solution);
+            // set the owning side to null (unless already changed)
+            if ($solution->getExercise() === $this) {
+                $solution->setExercise(null);
             }
         }
 
