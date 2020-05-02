@@ -43,7 +43,7 @@ for($i=0;$i<count($result);$i++){
     $tab2[$i]=$tab1;
 }
 
-
+dump($tab2);
         return $this->render('exercise_teacher\detail.html.twig', [
             'result' => $tab2,
         ]);
