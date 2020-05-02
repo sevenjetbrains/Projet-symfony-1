@@ -4,12 +4,25 @@
 
 		<ul class="navbar-nav mr-auto">
 			<li class="nav-item mr-2">
-				<a class="nav-link  active" href="{{path('classes_teacher')}}">Cours</a>
+<a class="nav-link  active" href="{{path('classes_teacher')}}">
+	<i class="fas fa-book mr-1"></i>Cours</a>
+
 				
 			</li>
 			<li class="nav-item mr-2">
 				
-<a class="nav-link  active" href="{{path('exercise_index')}}">Exercice</a>
+<a class="nav-link  active" href="{{path('exercise_index')}}">
+	<i class="fas fa-file-signature mr-1"></i>Exercice</a>
+
+
+			</li>
+			<li class="nav-item mr-2">
+				
+<a class="nav-link  active" href="{{path('teacher_stat')}}">
+
+	<i class="fas fa-chart-bar mr-1"></i>Statistique</a>
+
+
 
 			</li>
 		</ul>
@@ -21,7 +34,9 @@
 		<ul class="navbar-nav ">
 			{% if app.user %}
 				<li class="nav-item mr-2">
-<a class="btn btn-outline-dark" type="button" href="{{path('teacher_logout')}}">Deconnexion</a>
+<a class="btn btn-outline-dark" type="button" href="{{path('teacher_logout')}}">
+	<i class="fas fa-sign-out-alt mr-1"></i>Deconnexion</a>
+
 
 
 				</li>
@@ -29,11 +44,15 @@
 			{% else %}
 
 				<li class="nav-item mr-2">
-<a class="nav-link btn btn-success active" href="{{path('teacher_login')}}">Connexion</a>
+<a class="nav-link btn btn-success active" href="{{path('teacher_login')}}">
+	<i class="fas fa-door-open mr-1"></i>Connexion</a>
+
 
 				</li>
 				<li class="nav-item">
-					<a class="nav-link btn btn-info" href="{{ path('registration_teacher') }}">Inscription</a>
+<a class="nav-link btn btn-info" href="{{ path('registration_teacher') }}">
+	<i class="fas fa-user-plus mr-1"></i>Inscription</a>
+
 				</li>
 			{% endif %}
 

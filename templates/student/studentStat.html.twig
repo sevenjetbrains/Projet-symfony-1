@@ -1,0 +1,70 @@
+{% extends "base.html.twig" %}
+{% block title %}statistique
+{% endblock %}
+{% block body %}
+<div class="container" >
+
+		<nav aria-label="breadcrumb mt-2">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item active" aria-current="page">
+					<a href="#" id="back" class="btn btn-info">
+
+						<i class="fas fa-angle-left"></i>Retour</a>
+
+
+				</li>
+
+
+			</ol>
+		</nav>
+	
+			
+		
+			<hr class="my-4">
+
+			<table class="table table-striped">
+				<thead>
+					<tr>
+
+						<th scope="col">Exercice</th>
+						<th scope="col">status</th>
+						<th scope="col">nombre d'éssayer</th>
+						<th scope="col"></th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for line in listexercise %}
+						<tr>
+							<td>{{line.Exercise.title}}</td>
+							{% if line.status == true %}
+								<td>
+									<i class="far fa-check-circle text-success"></i>
+								</td>
+
+
+							{% else %}
+								<td>
+									<i class="far fa-times-circle text-danger"></i>
+
+								</td>
+
+							{% endif %}
+							<td>{{line.nomberTry}}</td>
+							<td>
+								<a href="{{path('student_exercise_parson',{'id':line.exercise.id })}}" class="card-link btn parson1 btn-outline-success">
+
+
+									<i class="fas fa-eye mr-1"></i>voir</a>
+							</td>
+
+						</tr>
+
+					{% endfor %}
+				</tbody>
+
+				</table>
+			</div>
+
+</div>
+	</div>
+{% endblock %}

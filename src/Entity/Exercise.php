@@ -68,10 +68,16 @@ class Exercise
      */
     private $solutions;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\ListExercise", mappedBy="exercise" )
+     */
+    private $listStudentTry;
+
     public function __construct()
     {
         $this->linesExercise = new ArrayCollection();
         $this->solutions = new ArrayCollection();
+        $this->listStudentTry = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -209,6 +215,37 @@ class Exercise
             // set the owning side to null (unless already changed)
             if ($solution->getExercise() === $this) {
                 $solution->setExercise(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ListExercise[]
+     */
+    public function getListStudentTry(): Collection
+    {
+        return $this->listStudentTry;
+    }
+
+    public function addListStudentTry(ListExercise $listStudentTry): self
+    {
+        if (!$this->listStudentTry->contains($listStudentTry)) {
+            $this->listStudentTry[] = $listStudentTry;
+            $listStudentTry->setExercise($this);
+        }
+
+        return $this;
+    }
+
+    public function removeListStudentTry(ListExercise $listStudentTry): self
+    {
+        if ($this->listStudentTry->contains($listStudentTry)) {
+            $this->listStudentTry->removeElement($listStudentTry);
+            // set the owning side to null (unless already changed)
+            if ($listStudentTry->getExercise() === $this) {
+                $listStudentTry->setExercise(null);
             }
         }
 

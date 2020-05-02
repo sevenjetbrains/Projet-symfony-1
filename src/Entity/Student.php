@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -57,6 +59,21 @@ class Student implements UserInterface
      */
      
     private $confirm;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\ListExercise", mappedBy="studentTry")
+     */
+    private $listExercises;
+
+    public function getCompletName()
+    {
+        return $this->firstName . ' ' . $this->lastName;
+    }
+
+    public function __construct()
+    {
+        $this->listExercises = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -160,5 +177,36 @@ class Student implements UserInterface
     }
     public function eraseCredentials()
     {
+    }
+
+    /**
+     * @return Collection|ListExercise[]
+     */
+    public function getListExercises(): Collection
+    {
+        return $this->listExercises;
+    }
+
+    public function addListExercise(ListExercise $listExercise): self
+    {
+        if (!$this->listExercises->contains($listExercise)) {
+            $this->listExercises[] = $listExercise;
+            $listExercise->setStudentTry($this);
+        }
+
+        return $this;
+    }
+
+    public function removeListExercise(ListExercise $listExercise): self
+    {
+        if ($this->listExercises->contains($listExercise)) {
+            $this->listExercises->removeElement($listExercise);
+            // set the owning side to null (unless already changed)
+            if ($listExercise->getStudentTry() === $this) {
+                $listExercise->setStudentTry(null);
+            }
+        }
+
+        return $this;
     }
 }

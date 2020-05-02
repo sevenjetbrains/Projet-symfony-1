@@ -1,0 +1,178 @@
+{% extends "base.html.twig" %}
+{% block title  %}
+	{{exercise.title}}
+{% endblock %}
+{% block stylesheets %}
+	<!--link rel="stylesheet" href="{{asset('css/jquery-ui.min.css')}}"-->
+
+
+{% endblock %}
+
+{% block body %}
+	<div class="container-fluid">
+		<nav aria-label="breadcrumb mt-2">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item active" aria-current="page">
+					<a href="#" id="back" class="btn btn-info">
+
+						<i class="fas fa-angle-left"></i>Retour</a>
+
+
+				</li>
+
+
+			</ol>
+		</nav>
+		<div class="jumbotron">
+			<h1 class="display-4">{{exercise.title}}</h1>
+			<hr class="my-4">
+{{exercise.description}}
+
+			<hr class="my-4">
+
+			<div class="row ml-2">
+
+				<div class="col-5">
+					<h5 class="text-center">
+						<span class="badge badge-secondary">Instruction</span>
+					</h5>
+					<div class="col  connectedSortable border border-primary " id="exo">
+
+
+						{% for line in exercise.linesExercise %}
+							<div class="alert alert-success mt-1" role="alert" id="{{line.id}}">
+							<strong>	{{line.instruction}}</strong>
+							</div>
+
+
+						{% endfor %}
+
+
+					</div>
+				</div>
+				<div class="col-1"></div>
+				<div class="col-5">
+					<h5 class="text-center">
+						<span class="badge badge-success">Solution</span>
+					</h5>
+
+					<div class="col connectedSortable border border-primary " id="sol"></div>
+				</div>
+			</div>
+			<hr class="my-4">
+<div class="d-flex justify-content-center">
+	<h2>
+<span class="badge badge-secondary" style="background-color:#28B738">FAUX</span>
+
+<span class="badge badge-secondary" style="background-color:#F71A10">VRAI</span>
+
+
+	</h2>
+</div>
+
+		</div>
+
+	</div>
+{% include "model/modal1.html.twig" %}
+{% endblock %}
+
+{% block javascripts %}
+
+
+	<script src="{{asset('js/jquery-ui.min.js')}}"></script>
+
+	<script>
+		$(document).ready(function () {
+function color(){
+$('#exo div').each(function(index){
+$(this).css('background-color','#5EB8F5');
+
+
+});
+
+
+};
+var h1 = $('#exo').css('height');
+var w1 = $('#exo').css('width');
+$('#sol').css('height', h1).css('width', w1);
+var h1 = $('#sol').css('height');
+var w1 = $('#sol').css('width');
+$('#exo').css('height', h1).css('width', w1);
+color();
+var cp = 0;
+var final = {};
+final.exo = {{ exercise.id }};
+var route ="{{ path('student_exercise_solveSave') }}";
+
+
+$("#exo, #sol").sortable({
+connectWith: ".connectedSortable",
+stop: function (event, ui) {
+
+var solution = new Array();
+
+// var sol=$('#sol div');
+cp++;
+// --------------------------------------
+
+
+$('#sol div').each(function (index) {
+solution[index] = $(this).attr('id');
+});
+final.result = solution;
+console.log(solution);
+final.cp = cp;
+var myJSON = JSON.stringify(final);
+// ----------------------------------------
+var getOption = {
+url: route,
+method: "POST",
+data: myJSON,
+success: function (reponse) {
+tab1 = reponse.tab;
+console.log("try ",reponse);
+
+for (key in tab1) {
+if (tab1[key] == 1) {
+	
+
+$('#'+key).css('background-color','#28B738');
+
+}else{
+$('#'+key).css('background-color','#F71A10');
+	
+}
+
+}
+if(reponse.status == 1){
+$('#reponse').text("félicitation vous avez réussi l'exercice");
+
+$('#staticBackdrop').modal('show');
+
+}
+color();
+
+},
+error : function(reponse){
+//color();
+//alert("une erreur s'est produite veuillez réessayer une nouvelle fois");
+
+}
+
+
+};
+color();
+if($('#sol div').length !==0){
+
+$.ajax(getOption);
+}
+
+
+}
+
+
+}).disableSelection();
+
+});
+	</script>
+{% endblock %}

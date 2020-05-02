@@ -1,0 +1,25 @@
+* {
+  margin: 0;
+}
+html, body {
+  height: 100%;
+}
+.container {
+  min-height: 100%;
+  /* equal to footer height */
+  margin-bottom: -142px; 
+}
+.container:after {
+  content: "";
+  display: block;
+}
+footer, .container:after {
+  height: 142px; 
+}
+ul.student li :hover{
+  background-color: rgb(13, 11, 112);
+  color: black;
+}
+.container{
+  margin-bottom: 5em;
+}

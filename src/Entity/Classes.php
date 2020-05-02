@@ -62,7 +62,7 @@ class Classes
     private $updateDate;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Exercise", mappedBy="classes")
+     * @ORM\OneToMany(targetEntity="App\Entity\Exercise", mappedBy="classes",fetch="EAGER")
      */
     private $exercise;
 
