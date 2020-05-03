@@ -4,22 +4,22 @@
 html, body {
   height: 100%;
 }
-.container {
+.container ,.container-fluid {
   min-height: 100%;
   /* equal to footer height */
   margin-bottom: -142px; 
 }
-.container:after {
+.container:after,.container-fluid:after {
   content: "";
   display: block;
 }
-footer, .container:after {
+footer, .container:after,.container-fluid:after {
   height: 142px; 
 }
 ul.student li :hover{
   background-color: rgb(13, 11, 112);
   color: black;
 }
-.container{
+.container,.container-fluid{
   margin-bottom: 5em;
 }

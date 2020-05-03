@@ -28,24 +28,26 @@ class TeacherStatController extends AbstractController
     /**
      * @Route("/teacher/stat/exercise/{id}", name="teacher_stat_detail")
      */
-    public function detail(ExerciseRepository $repo,$id,ListExerciseRepository $list)
+    public function detail($id,ExerciseRepository $repo,ListExerciseRepository $list)
     {
-      //  ini_set('max_execution_time', 0);
+        ini_set('max_execution_time', 300); 
         $tab1=[];
         $tab2=[];
         $exercise=$repo->findOneBy(["id"=>$id]);
         $result=$list->findBy(["exercise"=>$exercise]);
 
 for($i=0;$i<count($result);$i++){
-    $tab1["nom"]=$result[$i]->getStudentTry()->getCompletName();
+
+    $tab1["name"]=$result[$i]->getStudentTry()->getCompletName();
     $tab1["status"]=$result[$i]->getStatus();
     $tab1["nomberTry"]=$result[$i]->getNomberTry();
     $tab2[$i]=$tab1;
 }
 
-dump($tab2);
-        return $this->render('exercise_teacher\detail.html.twig', [
+
+     return $this->render('exercise_teacher\detail.html.twig', [
             'result' => $tab2,
         ]);
+      //  return $this->redirectToRoute("exercise_create");
     }
 }

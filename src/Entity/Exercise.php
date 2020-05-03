@@ -56,7 +56,7 @@ class Exercise
     private $title;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Lines", mappedBy="exercise", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Lines", mappedBy="exercise", orphanRemoval=true,fetch="EAGER")
      * 
      * @Assert\Valid()
      *
@@ -64,12 +64,12 @@ class Exercise
     private $linesExercise;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Solution", mappedBy="exercise", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Solution", mappedBy="exercise", orphanRemoval=true,fetch="EAGER")
      */
     private $solutions;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\ListExercise", mappedBy="exercise" )
+     * @ORM\OneToMany(targetEntity="App\Entity\ListExercise", mappedBy="exercise" ,fetch="EAGER")
      */
     private $listStudentTry;
 
